@@ -1,9 +1,12 @@
 {
   "name": "musicPlayer",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "cors": "^2.7.1"
+  },
   "scripts": {
-    "test": "gulp test"
+    "start": "node server.js",
+    "postinstall": "bower install && gulp build"
   },
   "devDependencies": {
     "gulp": "~3.8.10",
@@ -47,7 +50,9 @@
     "chalk": "~0.5.1",
     "protractor": "~1.7.0",
     "uglify-save-license": "~0.4.1",
-    "wrench": "~1.5.8"
+    "wrench": "~1.5.8",
+    "express": "3.2.6",
+    "mongojs": "*"
   },
   "engines": {
     "node": ">=0.10.0"
