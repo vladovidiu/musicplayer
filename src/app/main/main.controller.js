@@ -1,8 +1,15 @@
-'use strict';
+(function() {
+  'use strict';
 
-angular.module('musicPlayer')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
+  angular
+    .module('musicPlayer.controllers')
+    .controller('MainCtrl', MainCtrl);
+
+  MainCtrl.$inject= ['$timeout'];
+
+  function MainCtrl($timeout) {
+    var vm = this;
+    vm.awesomeThings = [
       {
         'title': 'AngularJS',
         'url': 'https://angularjs.org/',
@@ -52,7 +59,9 @@ angular.module('musicPlayer')
         'logo': 'less.png'
       }
     ];
-    angular.forEach($scope.awesomeThings, function(awesomeThing) {
+    angular.forEach(vm.awesomeThings, function(awesomeThing) {
       awesomeThing.rank = Math.random();
     });
-  });
+  }
+
+}());
