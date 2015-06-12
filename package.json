@@ -6,7 +6,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "postinstall": "bower install && gulp build"
+    "postinstall": "npm install && bower install && gulp build"
   },
   "devDependencies": {
     "gulp": "~3.8.10",
