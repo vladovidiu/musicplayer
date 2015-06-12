@@ -1,0 +1,12 @@
+<div class="" ng-controller="PlayerScreenCtrl as ps">
+  <md-card ng-repeat="song in ps.songList">
+    <div class="thumbnail">
+      <img class="pull-right">
+      <div class="caption">
+        <h3>{{song.songName}}</h3>
+        <p>{{song.artist}}</p>
+        <p><a ng-href="{{awesomeThing.url}}">{{awesomeThing.url}}</a></p>
+      </div>
+    </div>
+  </md-card>
+</div>
