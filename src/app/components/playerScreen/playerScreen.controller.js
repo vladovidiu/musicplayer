@@ -12,11 +12,19 @@
 
     vm.songList = [];
 
-    PlayerScreenService.getSongs()
-      .then(getSongsSuccess);
+    vm.init = function () {
+      PlayerScreenService.getSongs()
+        .then(getSongsSuccess, getSongsError);
+    };
+
+    vm.init();
 
     function getSongsSuccess(songs) {
       vm.songList = songs;
+    }
+
+    function getSongsError(status) {
+      console.error(status);
     }
   }
 }());
