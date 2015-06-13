@@ -13,6 +13,7 @@
     vm.songList = [];
     vm.playlist = [];
     vm.gridOptionsSong = {};
+    vm.gridOptionsPlaylist = {};
 
     vm.init = function () {
       PlayerScreenService.getSongs()
@@ -35,6 +36,8 @@
 
     function getPlaylistSuccess(data) {
       vm.playlist = data;
+      $scope.$parent.setCurrentPlaylist(data);
+      vm.gridOptionsPlaylist.data = data;
     }
 
     function getPlaylistError(status) {
@@ -42,7 +45,8 @@
     }
 
     // Custom add to playlist cell template
-    var template = '<div><input type="button" ng-click="grid.appScope.addSongToPlaylist(row)" value="Add"></input></div>';
+    var addTemplate = '<div><input type="button" ng-click="grid.appScope.addSongToPlaylist(row)" value="Add"></input></div>';
+    var playTemplate = '<div><input type="button" ng-click="grid.appScope.playSong(row)" value="Play"></input></div>';
 
     // Grid Options
     vm.gridOptionsSong = {
@@ -51,7 +55,17 @@
         { field: 'songName' },
         { field: 'artist' },
         { field: 'genre' },
-        { field: 'add to playlist', cellTemplate: template, enableFiltering: false, width: '15%'}
+        { field: 'add to playlist', cellTemplate: addTemplate, enableFiltering: false, width: '15%'}
+      ]
+    };
+
+    vm.gridOptionsPlaylist = {
+      enableFiltering: true,
+      columnDefs: [
+        { field: 'songName' },
+        { field: 'artist' },
+        { field: 'genre' },
+        { field: 'play', cellTemplate: playTemplate, enableFiltering: false, width: '15%'}
       ]
     };
 
@@ -63,6 +77,11 @@
         PlayerScreenService.getPlaylist()
           .then(getPlaylistSuccess, getPlaylistError);
       });
+    };
+
+    $scope.playSong = function (row) {
+      var index = vm.gridOptionsPlaylist.data.indexOf(row.entity);
+      $scope.$parent.setCurrentSong(vm.playlist[index]);
     };
 
   }
