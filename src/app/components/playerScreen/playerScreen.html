@@ -1,5 +1,5 @@
 <div class="" ng-controller="PlayerScreenCtrl as ps">
-  <md-card ng-repeat="song in ps.songList">
+  <!-- <md-card ng-repeat="song in ps.songList">
     <div class="thumbnail">
       <img class="pull-right">
       <div class="caption">
@@ -8,5 +8,9 @@
         <p><a ng-href="{{awesomeThing.url}}">{{awesomeThing.url}}</a></p>
       </div>
     </div>
-  </md-card>
+  </md-card> -->
+  <div class="availableSongs">
+    Available songs to choose from
+  </div>
+  <div class="grid" ui-grid="ps.gridOptions"></div>
 </div>

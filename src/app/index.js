@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('musicPlayer', ['ngAnimate', 'ngCookies', 'ngTouch',
-    'ngSanitize', 'ui.router', 'ngMaterial',
+    'ngSanitize', 'ui.router', 'ngMaterial', 'ui.grid',
     'musicPlayer.controllers', 'musicPlayer.services'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
