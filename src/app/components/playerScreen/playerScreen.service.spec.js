@@ -32,5 +32,18 @@
       expect(getSongsSuccess).toHaveBeenCalledWith(mockObject);
       expect(getSongsError).not.toHaveBeenCalled();
     }));
+
+    it('should send HTTP request to get the playlist', inject(function ($httpBackend) {
+      $httpBackend.whenGET('http://localhost:3002/playlist').respond(200, mockObject);
+
+      var getPlaylistSuccess = jasmine.createSpy('getPlaylistSuccess');
+      var getPlaylistError = jasmine.createSpy('getPlaylistError');
+      PlayerScreenService.getPlaylist()
+        .then(getPlaylistSuccess, getPlaylistError);
+
+      $httpBackend.flush();
+      expect(getPlaylistSuccess).toHaveBeenCalledWith(mockObject);
+      expect(getPlaylistError).not.toHaveBeenCalled();
+    }));
   });
 }());

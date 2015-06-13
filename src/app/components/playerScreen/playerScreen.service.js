@@ -33,7 +33,21 @@
       }
 
       function getPlaylist() {
+        var d = $q.defer();
+        var URL = 'http://localhost:3002/playlist';
 
+        $http({
+          method: 'GET',
+          url: URL
+        })
+        .success(function(data) {
+          d.resolve(data);
+        })
+        .error(function(data) {
+          d.reject(data);
+        });
+
+        return d.promise;
       }
 
       function updatePlaylist() {
