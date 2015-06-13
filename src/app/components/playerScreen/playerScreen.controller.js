@@ -12,7 +12,7 @@
 
     vm.songList = [];
     vm.playlist = [];
-    vm.gridOptions = {};
+    vm.gridOptionsSong = {};
 
     vm.init = function () {
       PlayerScreenService.getSongs()
@@ -26,7 +26,7 @@
 
     function getSongsSuccess(songs) {
       vm.songList = songs;
-      vm.gridOptions.data = songs;
+      vm.gridOptionsSong.data = songs;
     }
 
     function getSongsError(status) {
@@ -45,7 +45,7 @@
     var template = '<div><input type="button" ng-click="grid.appScope.addSongToPlaylist(row)" value="Add"></input></div>';
 
     // Grid Options
-    vm.gridOptions = {
+    vm.gridOptionsSong = {
       enableFiltering: true,
       columnDefs: [
         { field: 'songName' },
@@ -56,8 +56,13 @@
     };
 
     $scope.addSongToPlaylist = function (row) {
-      var index = vm.gridOptions.data.indexOf(row.entity);
+      var index = vm.gridOptionsSong.data.indexOf(row.entity);
       // do somehting with index
+      PlayerScreenService.updatePlaylist(vm.songList[index]).then(function(response) {
+        console.log(response);
+        PlayerScreenService.getPlaylist()
+          .then(getPlaylistSuccess, getPlaylistError);
+      });
     };
 
   }

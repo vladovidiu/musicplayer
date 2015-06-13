@@ -50,8 +50,23 @@
         return d.promise;
       }
 
-      function updatePlaylist() {
+      function updatePlaylist(song) {
+        var d = $q.defer();
+        var URL = 'http://localhost:3002/playlist/add';
 
+        $http({
+          method: 'POST',
+          url: URL,
+          data: song
+        })
+        .success(function(data) {
+          d.resolve(data);
+        })
+        .error(function(data) {
+          d.reject(data);
+        });
+
+        return d.promise;
       }
     }
 }());

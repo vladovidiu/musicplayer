@@ -2,14 +2,23 @@
 
   <md-content class="centerPosition">
     <header ng-include="'app/components/navbar/navbar.html'"></header>
-
     <section class="jumbotron">
-      <h1>'Allo, 'Allo!</h1>
-      <p class="lead">
-        <img src="assets/images/yeoman.png" alt="I'm Yeoman"><br>
-        Always a pleasure scaffolding your apps.
-      </p>
-      <p><a class="btn" ng-href="#">Splendid!</a></p>
+      <div class="songDetail">
+        <h1>Song Name</h1>
+        <h2>Artist</h2>
+      </div>
+      <div class="progressBar" layout="row">
+        <div class="leftTimer">0:00</div>
+        <md-progress-linear class="md-accent bar" md-mode="{{main.mode}}" value="{{main.determinateValue}}"></md-progress-linear>
+        <div class="rightTimer">0:00</div>
+      </div>
+      <div class="playOptions">
+        <md-button class="md-raised">Previous</md-button>
+        <md-button class="md-raised md-primary">Play</md-button>
+        <md-button class="md-raised md-primary" ng-show="false">Pause</md-button>
+        <md-button class="md-raised">Next</md-button>
+      </div>
+
     </section>
 
     <div class="" layout-align="center">
@@ -21,5 +30,4 @@
       </md-toolbar>
     </footer>
   </md-content>
-
 </div>
