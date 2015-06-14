@@ -44,13 +44,21 @@
       console.error(status);
     }
 
-    // Custom add to playlist cell template
+    function removeSongSuccess(newPlaylist) {
+      vm.playlist = newPlaylist;
+      $scope.$parent.setCurrentPlaylist(newPlaylist);
+      vm.gridOptionsPlaylist.data = newPlaylist;
+    }
+
+    // Custom cell templates
     var addTemplate = '<div><input type="button" ng-click="grid.appScope.addSongToPlaylist(row)" value="Add"></input></div>';
     var playTemplate = '<div><input type="button" ng-click="grid.appScope.playSong(row)" value="Play"></input></div>';
+    var removeTemplate = '<div><input type="button" ng-click="grid.appScope.removeSong(row)" value="Remove"></input></div>';
 
     // Grid Options
     vm.gridOptionsSong = {
       enableFiltering: true,
+      enableColumnResizing: true,
       columnDefs: [
         { field: 'songName' },
         { field: 'artist' },
@@ -61,11 +69,14 @@
 
     vm.gridOptionsPlaylist = {
       enableFiltering: true,
+      enableColumnResizing: true,
       columnDefs: [
         { field: 'songName' },
         { field: 'artist' },
         { field: 'genre' },
-        { field: 'play', cellTemplate: playTemplate, enableFiltering: false, width: '15%'}
+        { field: 'rating' },
+        { field: 'play', cellTemplate: playTemplate, enableFiltering: false, width: '15%'},
+        { field: 'RemoveFromPlaylist', cellTemplate: removeTemplate, enableFiltering: false, width: '15%'}
       ]
     };
 
@@ -82,6 +93,12 @@
     $scope.playSong = function (row) {
       var index = vm.gridOptionsPlaylist.data.indexOf(row.entity);
       $scope.$parent.setCurrentSong(vm.playlist[index]);
+    };
+
+    $scope.removeSong = function (row) {
+      var index = vm.gridOptionsPlaylist.data.indexOf(row.entity);
+      PlayerScreenService.removeSongFromPlaylist(vm.playlist[index].songName)
+        .then(removeSongSuccess);
     };
 
   }

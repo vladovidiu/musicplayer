@@ -105,8 +105,22 @@ app.get('/playlist', function(req, res) {
 });
 
 app.post('/playlist/add', function(req, res) {
+  // Backend should check if the song already exists in the playlist
   playlist.push(req.body);
   console.log(req.body);
+  res.end("Finished.");
+});
+
+app.delete('/playlist/remove', function(req, res) {
+  var name = req.header('songName');
+  for (var song in playlist) {
+    if (playlist.hasOwnProperty(song)) {
+      if(playlist[song].songName === name) {
+        playlist.splice(song, 1);
+      }
+    }
+  }
+  res.send(playlist);
   res.end("Finished.");
 });
 

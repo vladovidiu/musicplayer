@@ -11,7 +11,8 @@
       return {
         getSongs: getSongs,
         getPlaylist: getPlaylist,
-        updatePlaylist: updatePlaylist
+        updatePlaylist: updatePlaylist,
+        removeSongFromPlaylist: removeSongFromPlaylist
       };
 
       function getSongs() {
@@ -58,6 +59,27 @@
           method: 'POST',
           url: URL,
           data: song
+        })
+        .success(function(data) {
+          d.resolve(data);
+        })
+        .error(function(data) {
+          d.reject(data);
+        });
+
+        return d.promise;
+      }
+
+      function removeSongFromPlaylist(songName) {
+        var d = $q.defer();
+        var URL = 'http://localhost:3002/playlist/remove';
+
+        $http({
+          method: 'DELETE',
+          url: URL,
+          headers: {
+            'songName': songName
+          }
         })
         .success(function(data) {
           d.resolve(data);
