@@ -3,9 +3,10 @@
   <md-content class="centerPosition">
     <header ng-include="'app/components/navbar/navbar.html'"></header>
     <section class="jumbotron">
-      <div class="songDetail">
+      <div class="songDetail" ng-hide="!currentSong.songName">
         <h1 class="md-headline-3">{{currentSong.songName}}</h1>
         <h2>{{currentSong.artist}}</h2>
+        <h2><select ng-model="currentSong.rating" ng-options="rate for rate in rates" default-option="Rate this song" ng-change="rateSong()"></select></h2>
       </div>
       <div class="progressBar" layout="row" ng-hide="!currentSong.songName">
         <div class="leftTimer">{{determinateValue | secondsToTime | date:'mm:ss'}}</div>

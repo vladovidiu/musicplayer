@@ -4,11 +4,12 @@
   angular
     .module('musicPlayer.controllers')
     .controller('MainCtrl', MainCtrl)
-    .filter('secondsToTime', [secondsToTime]);
+    .filter('secondsToTime', [secondsToTime])
+    .directive('select', selectRating);
 
-  MainCtrl.$inject= ['$scope', '$interval'];
+  MainCtrl.$inject = ['$scope', '$interval', 'PlayerScreenService'];
 
-  function MainCtrl($scope, $interval) {
+  function MainCtrl($scope, $interval, PlayerScreenService) {
 
     // Variables
     $scope.currentSong = {};
@@ -19,10 +20,14 @@
     $scope.determinateValue = 0;
     $scope.percentageValue = 0;
 
+    PlayerScreenService.getRates().then(function(data) {
+      $scope.rates = data;
+    });
+
     var temporaryDeterminateValue, temporaryPercentageValue,
       interval;
 
-    $scope.playSong = function () {
+    $scope.playSong = function() {
       $scope.pauseFlag = true;
       if (temporaryDeterminateValue) {
         $scope.determinateValue = temporaryDeterminateValue;
@@ -66,10 +71,18 @@
       }
     };
 
+    $scope.rateSong = function() {
+      PlayerScreenService.setRate($scope.currentSong.songName, $scope.currentSong.rating)
+        .then(function(updatedPlaylist) {
+          $scope.currentPlaylist = updatedPlaylist;
+        });
+    };
+
     // Setters and Getters
     $scope.setCurrentSong = function(song) {
       clearVars();
       $scope.currentSong = song;
+      $scope.rate = $scope.currentSong.rating;
       $scope.timeRemaining = $scope.currentSong.duration;
       $scope.playSong();
     };
@@ -98,8 +111,21 @@
   }
 
   function secondsToTime() {
-    return function (seconds) {
-      return new Date (1970, 0, 1).setSeconds(seconds);
+    return function(seconds) {
+      return new Date(1970, 0, 1).setSeconds(seconds);
+    };
+  }
+
+  function selectRating($interpolate) {
+    return {
+      restrict: 'E',
+      require: 'ngModel',
+      link: function(scope, elem, attrs, ctrl) {
+        var defaultOptionTemplate;
+        scope.defaultOptionText = attrs.defaultOption || 'Select...';
+        defaultOptionTemplate = '<option value="" disabled selected style="display: none;">{{defaultOptionText}}</option>';
+        elem.prepend($interpolate(defaultOptionTemplate)(scope));
+      }
     };
   }
 

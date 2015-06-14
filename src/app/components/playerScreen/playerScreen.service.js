@@ -12,7 +12,9 @@
         getSongs: getSongs,
         getPlaylist: getPlaylist,
         updatePlaylist: updatePlaylist,
-        removeSongFromPlaylist: removeSongFromPlaylist
+        removeSongFromPlaylist: removeSongFromPlaylist,
+        getRates: getRates,
+        setRate: setRate
       };
 
       function getSongs() {
@@ -79,6 +81,46 @@
           url: URL,
           headers: {
             'songName': songName
+          }
+        })
+        .success(function(data) {
+          d.resolve(data);
+        })
+        .error(function(data) {
+          d.reject(data);
+        });
+
+        return d.promise;
+      }
+
+      function getRates() {
+        var d = $q.defer();
+        var URL = 'http://localhost:3002/rates';
+
+        $http({
+          method: 'GET',
+          url: URL
+        })
+        .success(function(data) {
+          d.resolve(data);
+        })
+        .error(function(data) {
+          d.reject(data);
+        });
+
+        return d.promise;
+      }
+
+      function setRate(songName, rate) {
+        var d = $q.defer();
+        var URL = 'http://localhost:3002/playlist/rateSong';
+
+        $http({
+          method: 'POST',
+          url: URL,
+          headers: {
+            'songName': songName,
+            'rate': rate
           }
         })
         .success(function(data) {

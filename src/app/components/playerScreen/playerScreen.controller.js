@@ -5,6 +5,7 @@
     .module('musicPlayer.controllers')
     .controller('PlayerScreenCtrl', PlayerScreenCtrl);
 
+
   PlayerScreenCtrl.$inject = ['PlayerScreenService', '$scope'];
 
   function PlayerScreenCtrl(PlayerScreenService, $scope) {
@@ -12,8 +13,14 @@
 
     vm.songList = [];
     vm.playlist = [];
+    vm.rateArray = [];
     vm.gridOptionsSong = {};
     vm.gridOptionsPlaylist = {};
+
+    PlayerScreenService.getRates().then(function(data) {
+      vm.rates = data;
+    });
+
 
     vm.init = function () {
       PlayerScreenService.getSongs()
@@ -74,7 +81,6 @@
         { field: 'songName' },
         { field: 'artist' },
         { field: 'genre' },
-        { field: 'rating' },
         { field: 'play', cellTemplate: playTemplate, enableFiltering: false, width: '15%'},
         { field: 'RemoveFromPlaylist', cellTemplate: removeTemplate, enableFiltering: false, width: '15%'}
       ]

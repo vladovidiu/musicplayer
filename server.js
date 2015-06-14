@@ -15,56 +15,56 @@ var songList = [
     "genre": "Rock",
     "artist": "The Band Perry",
     "duration": 220,
-    "rating": "Not yet rated."
+    "rating": 0
   },
   {
     "songName": "For you",
     "genre": "Pop",
     "artist": "Timeflies",
     "duration": 420,
-    "rating": "Not yet rated."
+    "rating": 0
   },
   {
     "songName": "Boom Clap",
     "genre": "Pop",
     "artist": "Charli XCX",
     "duration": 210,
-    "rating": "Not yet rated."
+    "rating": 0
   },
   {
     "songName": "An Ending",
     "genre": "House",
     "artist": "Brian Eno",
     "duration": 180,
-    "rating": "Not yet rated."
+    "rating": 0
   },
   {
     "songName": "Love me like you do",
     "genre": "Rock",
     "artist": "Ellie Goulding",
     "duration": 300,
-    "rating": "Not yet rated."
+    "rating": 0
   },
   {
     "songName": "Keep your head up",
     "genre": "Rock",
     "artist": "Andy Grammer",
     "duration": 220,
-    "rating": "Not yet rated."
+    "rating": 0
   },
   {
     "songName": "Beautiful things",
     "genre": "Chillstep",
     "artist": "Andain",
     "duration": 226,
-    "rating": "Not yet rated."
+    "rating": 0
   },
   {
     "songName": "Alpha",
     "genre": "Rock",
     "artist": "Vangelis",
     "duration": 344,
-    "rating": "Not yet rated."
+    "rating": 0
   }
 ];
 
@@ -74,21 +74,21 @@ var playlist = [
     "genre": "Rock",
     "artist": "Vangelis",
     "duration": 344,
-    "rating": "Not yet rated."
+    "rating": 0
   },
   {
     "songName": "Beautiful things",
     "genre": "Chillstep",
     "artist": "Andain",
     "duration": 226,
-    "rating": "Not yet rated."
+    "rating": 0
   },
   {
     "songName": "Love me like you do",
     "genre": "Rock",
     "artist": "Ellie Goulding",
     "duration": 300,
-    "rating": "Not yet rated."
+    "rating": 0
   }
 ];
 
@@ -117,6 +117,25 @@ app.delete('/playlist/remove', function(req, res) {
     if (playlist.hasOwnProperty(song)) {
       if(playlist[song].songName === name) {
         playlist.splice(song, 1);
+      }
+    }
+  }
+  res.send(playlist);
+  res.end("Finished.");
+});
+
+app.get('/rates', function(req, res) {
+ var rates = ['0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'];
+ res.send(rates);
+});
+
+app.post('/playlist/rateSong', function(req, res) {
+  var name = req.header('songName');
+  var rate = req.header('rate');
+  for (var song in playlist) {
+    if (playlist.hasOwnProperty(song)) {
+      if(playlist[song].songName === name) {
+        playlist[song].rating = rate;
       }
     }
   }
