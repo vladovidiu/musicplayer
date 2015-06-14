@@ -9,14 +9,15 @@ describe('controllers', function(){
     scope = $rootScope.$new();
   }));
 
-  // it('should define more than 5 awesome things', inject(function($controller) {
-  //   expect(scope.awesomeThings).toBeUndefined();
-  //
-  //   $controller('MainCtrl', {
-  //     $scope: scope
-  //   });
-  //
-  //   expect(angular.isArray(scope.awesomeThings)).toBeTruthy();
-  //   expect(scope.awesomeThings.length > 5).toBeTruthy();
-  // }));
+  it('should define variables', inject(function ($controller) {
+    expect(scope.currentSong).toBeUndefined();
+    expect(scope.currentPlaylist).toBeUndefined();
+
+    $controller('MainCtrl', {
+      $scope: scope
+    });
+
+    expect(angular.isObject(scope.currentSong)).toBeTruthy();
+    expect(angular.isArray(scope.currentPlaylist)).toBeTruthy();
+  }));
 });

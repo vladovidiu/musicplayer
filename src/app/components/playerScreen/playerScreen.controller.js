@@ -17,11 +17,6 @@
     vm.gridOptionsSong = {};
     vm.gridOptionsPlaylist = {};
 
-    PlayerScreenService.getRates().then(function(data) {
-      vm.rates = data;
-    });
-
-
     vm.init = function () {
       PlayerScreenService.getSongs()
         .then(getSongsSuccess, getSongsError);
@@ -88,7 +83,6 @@
 
     $scope.addSongToPlaylist = function (row) {
       var index = vm.gridOptionsSong.data.indexOf(row.entity);
-      // do somehting with index
       PlayerScreenService.updatePlaylist(vm.songList[index]).then(function(response) {
         console.log(response);
         PlayerScreenService.getPlaylist()

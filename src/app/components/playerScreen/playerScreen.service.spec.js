@@ -10,6 +10,8 @@
     "rating": "Not yet rated."
   };
 
+  var rates = ['0', '1'];
+
   describe('musicPlayer api service', function() {
 
     var PlayerScreenService;
@@ -44,6 +46,17 @@
       $httpBackend.flush();
       expect(getPlaylistSuccess).toHaveBeenCalledWith(mockObject);
       expect(getPlaylistError).not.toHaveBeenCalled();
+    }));
+
+    it('should sent HTTP request to get the rates', inject(function ($httpBackend) {
+      $httpBackend.whenGET('http://localhost:3002/rates').respond(200, rates);
+
+      var getRatesSuccess = jasmine.createSpy('getRatesSuccess');
+      PlayerScreenService.getRates()
+        .then(getRatesSuccess);
+
+      $httpBackend.flush();
+      expect(getRatesSuccess).toHaveBeenCalledWith(rates);
     }));
   });
 }());
