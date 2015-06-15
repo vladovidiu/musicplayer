@@ -17,15 +17,15 @@
     vm.gridOptionsSong = {};
     vm.gridOptionsPlaylist = {};
 
-    vm.init = function () {
+    function init() {
       PlayerScreenService.getSongs()
         .then(getSongsSuccess, getSongsError);
 
       PlayerScreenService.getPlaylist()
         .then(getPlaylistSuccess, getPlaylistError);
-    };
+    }
 
-    vm.init();
+    init();
 
     function getSongsSuccess(songs) {
       vm.songList = songs;
