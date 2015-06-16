@@ -34,27 +34,32 @@ describe('controller: MainCtrl', function() {
 
   beforeEach(module('musicPlayer'));
 
-  beforeEach(inject(function($rootScope, $controller, _PlayerScreenService_) {
+  beforeEach(inject(function($rootScope, $controller, _PlayerScreenService_, $q) {
     scope = $rootScope.$new();
     PlayerScreenService = _PlayerScreenService_;
     ctrl = $controller('MainCtrl', {
       $scope: scope
     });
+
+    var deferred = $q.defer();
+    deferred.resolve(mockRates);
+
+    spyOn(PlayerScreenService, 'getRates').and.returnValue(deferred.promise)
   }));
 
-  it('should define variables', inject(function($httpBackend) {
+  it('should define variables', inject(function($rootScope) {
     expect(angular.isObject(scope.currentSong)).toBeTruthy();
     expect(angular.isArray(scope.currentPlaylist)).toBeTruthy();
 
-    $httpBackend.whenGET('localhost:3002/rates').respond(200, mockRates);
+    var result;
 
-    // TODO
+    PlayerScreenService.getRates()
+      .then(function(returnFromPromise) {
+        result = returnFromPromise;
+      });
 
-    // var getRatesSuccess = jasmine.spyOn('getRatesSuccess');
-    // PlayerScreenService.getRates()
-    //   .then(getRatesSuccess);
-    //
-    // expect(scope.rates).toBe(mockRates);
+    // scope.$apply();
+    // expect(result).toBe(mockRates);
   }));
 
   it('should set the song', function() {
@@ -113,6 +118,8 @@ describe('controller: MainCtrl', function() {
   });
 
   it('should rate the current playing song', function() {
+    // TODO
+
     scope.setCurrentSong(mockSong);
   });
 });

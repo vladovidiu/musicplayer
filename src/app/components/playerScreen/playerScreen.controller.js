@@ -12,7 +12,6 @@
 
     vm.songList = [];
     vm.playlist = [];
-    vm.rateArray = [];
     vm.gridOptionsSong = {};
     vm.gridOptionsPlaylist = {};
 
@@ -80,21 +79,21 @@
       ]
     };
 
-    $scope.addSongToPlaylist = function (row) {
+    $scope.addSongToPlaylist = function(row) {
       var index = vm.gridOptionsSong.data.indexOf(row.entity);
       PlayerScreenService.updatePlaylist(vm.songList[index]).then(function(response) {
-        console.log(response);
         PlayerScreenService.getPlaylist()
           .then(getPlaylistSuccess, getPlaylistError);
       });
     };
 
-    $scope.playSong = function (row) {
+    $scope.playSong = function(row) {
+      console.log(row);
       var index = vm.gridOptionsPlaylist.data.indexOf(row.entity);
       $scope.$parent.setCurrentSong(vm.playlist[index]);
     };
 
-    $scope.removeSong = function (row) {
+    $scope.removeSong = function(row) {
       var index = vm.gridOptionsPlaylist.data.indexOf(row.entity);
       PlayerScreenService.removeSongFromPlaylist(vm.playlist[index].songName)
         .then(removeSongSuccess);
