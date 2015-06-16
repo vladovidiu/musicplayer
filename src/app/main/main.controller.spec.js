@@ -7,19 +7,26 @@ describe('controller: MainCtrl', function() {
     "genre": "Rock",
     "artist": "The Band Perry",
     "duration": 340,
-    "rating": "Not yet rated."
+    "rating": 0
+  };
+  var mockRatedSong = {
+    "songName": "If I die young",
+    "genre": "Rock",
+    "artist": "The Band Perry",
+    "duration": 340,
+    "rating": 5
   };
   var malformedSong = {
     "genre": "Rock",
     "duration": 340,
-    "rating": "Not yet rated."
+    "rating": 0
   };
   var mockPlaylist = [{
     "songName": "If I die young",
     "genre": "Rock",
     "artist": "The Band Perry",
     "duration": 340,
-    "rating": "Not yet rated."
+    "rating": 0
   },
   {
     "songName": "Keep your head up",
@@ -31,7 +38,6 @@ describe('controller: MainCtrl', function() {
   var mockRates = ['0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'];
   var ctrl;
   var PlayerScreenService;
-  var deferred;
 
   beforeEach(module('musicPlayer'));
 
@@ -43,17 +49,25 @@ describe('controller: MainCtrl', function() {
     });
 
     spyOn(PlayerScreenService, 'getRates').and.callFake(function() {
-      deferred = $q.defer();
+      var deferred = $q.defer();
       deferred.resolve(mockRates);
       return deferred.promise;
     });
   }));
 
-  it('should define variables', inject(function($rootScope) {
+  it('should define variables', inject(function($rootScope, $httpBackend) {
     expect(angular.isObject(scope.currentSong)).toBeTruthy();
     expect(angular.isArray(scope.currentPlaylist)).toBeTruthy();
 
-    var result = PlayerScreenService.getRates().$$state.value;
+    var result;
+    $httpBackend.whenGET('http://localhost:3002/rates').respond(200, mockRates);
+
+    PlayerScreenService.getRates()
+      .then(function(returnFromPromise) {
+        result = returnFromPromise;
+      });
+
+    $httpBackend.flush();
     expect(result).toBe(mockRates);
   }));
 
@@ -110,11 +124,5 @@ describe('controller: MainCtrl', function() {
   it('should set the playlist', function() {
     scope.setCurrentPlaylist(mockPlaylist);
     expect(scope.currentPlaylist).toBe(mockPlaylist);
-  });
-
-  it('should rate the current playing song', function() {
-    // TODO
-
-    scope.setCurrentSong(mockSong);
   });
 });

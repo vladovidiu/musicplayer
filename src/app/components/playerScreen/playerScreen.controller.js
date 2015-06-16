@@ -15,7 +15,7 @@
     vm.gridOptionsSong = {};
     vm.gridOptionsPlaylist = {};
 
-    function init() {
+    vm.init = function() {
       PlayerScreenService.getSongs()
         .then(getSongsSuccess, getSongsError);
 
@@ -23,7 +23,7 @@
         .then(getPlaylistSuccess, getPlaylistError);
     }
 
-    init();
+    vm.init();
 
     function getSongsSuccess(songs) {
       vm.songList = songs;
