@@ -5,7 +5,6 @@
     .module('musicPlayer.controllers')
     .controller('PlayerScreenCtrl', PlayerScreenCtrl);
 
-
   PlayerScreenCtrl.$inject = ['PlayerScreenService', '$scope'];
 
   function PlayerScreenCtrl(PlayerScreenService, $scope) {

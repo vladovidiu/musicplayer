@@ -2,11 +2,10 @@
   'use strict';
 
   var mockObject = {
-    "id": 1,
     "songName": "If I die young",
     "genre": "Rock",
     "artist": "The Band Perry",
-    "duration": "3:40",
+    "duration": 340,
     "rating": "Not yet rated."
   };
 

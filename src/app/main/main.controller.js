@@ -20,9 +20,8 @@
     $scope.determinateValue = 0;
     $scope.percentageValue = 0;
 
-    PlayerScreenService.getRates().then(function(data) {
-      $scope.rates = data;
-    });
+    PlayerScreenService.getRates()
+      .then(getRatesSuccess);
 
     var temporaryDeterminateValue, temporaryPercentageValue,
       interval;
@@ -52,7 +51,6 @@
     };
 
     $scope.nextSong = function() {
-      $scope.currenSong = angular.copy({});
       var index = parseInt(findIndex());
       if (index < $scope.currentPlaylist.length - 1) {
         $scope.setCurrentSong($scope.currentPlaylist[index + 1]);
@@ -62,7 +60,6 @@
     };
 
     $scope.previousSong = function() {
-      $scope.currenSong = angular.copy({});
       var index = parseInt(findIndex());
       if (index > 0) {
         $scope.setCurrentSong($scope.currentPlaylist[index - 1]);
@@ -81,10 +78,14 @@
     // Setters and Getters
     $scope.setCurrentSong = function(song) {
       clearVars();
-      $scope.currentSong = song;
-      $scope.rate = $scope.currentSong.rating;
-      $scope.timeRemaining = $scope.currentSong.duration;
-      $scope.playSong();
+      if (songSanityCheck(song)) {
+        $scope.currentSong = song;
+        $scope.rate = $scope.currentSong.rating;
+        $scope.timeRemaining = $scope.currentSong.duration;
+        $scope.playSong();
+      } else {
+        console.log('The song is malformed');
+      }
     };
 
     $scope.setCurrentPlaylist = function(playlist) {
@@ -107,6 +108,34 @@
           }
         }
       }
+    }
+
+    function getRatesSuccess(data) {
+      $scope.rates = data;
+    }
+
+    function songSanityCheck(song) {
+      if (!('songName' in song)) {
+        return false;
+      }
+
+      if (!('artist' in song)) {
+        return false;
+      }
+
+      if (!('genre' in song)) {
+        return false;
+      }
+
+      if (!('duration' in song)) {
+        return false;
+      }
+
+      if (!('rating' in song)) {
+        return false;
+      }
+
+      return true;
     }
   }
 

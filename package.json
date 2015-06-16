@@ -51,7 +51,8 @@
     "uglify-save-license": "~0.4.1",
     "wrench": "~1.5.8",
     "express": "3.2.6",
-    "mongojs": "*"
+    "mongojs": "*",
+    "bower": "^1.4.1"
   },
   "engines": {
     "node": ">=0.10.0"

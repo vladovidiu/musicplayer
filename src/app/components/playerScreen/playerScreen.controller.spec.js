@@ -4,7 +4,6 @@
   describe('controllers', function() {
     var scope, PlayerScreenCtrl;
     var mockObject = [{
-      "id": 1,
       "songName": "If I die young",
       "genre": "Rock",
       "artist": "The Band Perry",
@@ -21,7 +20,7 @@
       });
     }));
 
-    it('should create empty arrays', function () {
+    it('should create empty arrays', function() {
       expect(angular.isArray(scope.ps.songList)).toBeTruthy();
       expect(scope.ps.songList.length === 0).toBeTruthy();
 
