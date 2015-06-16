@@ -31,6 +31,7 @@ describe('controller: MainCtrl', function() {
   var mockRates = ['0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5'];
   var ctrl;
   var PlayerScreenService;
+  var deferred;
 
   beforeEach(module('musicPlayer'));
 
@@ -41,25 +42,19 @@ describe('controller: MainCtrl', function() {
       $scope: scope
     });
 
-    var deferred = $q.defer();
-    deferred.resolve(mockRates);
-
-    spyOn(PlayerScreenService, 'getRates').and.returnValue(deferred.promise)
+    spyOn(PlayerScreenService, 'getRates').and.callFake(function() {
+      deferred = $q.defer();
+      deferred.resolve(mockRates);
+      return deferred.promise;
+    });
   }));
 
   it('should define variables', inject(function($rootScope) {
     expect(angular.isObject(scope.currentSong)).toBeTruthy();
     expect(angular.isArray(scope.currentPlaylist)).toBeTruthy();
 
-    var result;
-
-    PlayerScreenService.getRates()
-      .then(function(returnFromPromise) {
-        result = returnFromPromise;
-      });
-
-    // scope.$apply();
-    // expect(result).toBe(mockRates);
+    var result = PlayerScreenService.getRates().$$state.value;
+    expect(result).toBe(mockRates);
   }));
 
   it('should set the song', function() {
