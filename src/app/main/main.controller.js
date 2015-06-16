@@ -4,10 +4,12 @@
   angular
     .module('musicPlayer.controllers')
     .controller('MainCtrl', MainCtrl)
-    .filter('secondsToTime', [secondsToTime])
-    .directive('select', selectRating);
+    .filter('secondsToTime', [secondsToTimeFilter])
+    .directive('select', selectRatingDirective);
 
   MainCtrl.$inject = ['$scope', '$interval', 'PlayerScreenService'];
+  secondsToTimeFilter.$inject = [];
+  selectRatingDirective.$inject = ['$interpolate'];
 
   function MainCtrl($scope, $interval, PlayerScreenService) {
 
@@ -139,13 +141,13 @@
     }
   }
 
-  function secondsToTime() {
+  function secondsToTimeFilter() {
     return function(seconds) {
       return new Date(1970, 0, 1).setSeconds(seconds);
     };
   }
 
-  function selectRating($interpolate) {
+  function selectRatingDirective($interpolate) {
     return {
       restrict: 'E',
       require: 'ngModel',
