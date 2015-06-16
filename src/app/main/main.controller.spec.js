@@ -77,9 +77,9 @@ describe('controller: MainCtrl', function() {
     expect(scope.rate).toBe(mockSong.rating);
     expect(scope.timeRemaining).toBe(mockSong.duration);
 
-    spyOn(scope, 'playSong');
     scope.playSong();
-    expect(scope.playSong).toHaveBeenCalled();
+    expect(scope.pauseFlag).toBeTruthy();
+    expect(scope.determinateValue).toBeLessThan(scope.timeRemaining + 1);
   });
 
   it('should not set a malformed song', function() {
