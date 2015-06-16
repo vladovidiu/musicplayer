@@ -5,11 +5,16 @@
 
 'use strict';
 
-var MainPage = function() { 
-  this.jumbEl = element(by.css('.jumbotron'));
-  this.h1El = this.jumbEl.element(by.css('h1'));
-  this.imgEl = this.jumbEl.element(by.css('img'));
-  this.thumbnailEls = element(by.css('body')).all(by.repeater('awesomeThing in awesomeThings'));
+var MainPage = function() {
+  this.previousButton = element(by.css('.previousButton'));
+  this.playButton = element(by.css('.playButton'));
+  this.pauseButton = element(by.css('.pauseButton'));
+  this.nextButton = element(by.css('.nextButton'));
+
+  this.songName = element(by.css('.songName'));
+  this.artistName = element(by.css('.artistName'));
+
+  this.leftTimer = element(by.css('.leftTimer'));
 };
 
 module.exports = new MainPage();

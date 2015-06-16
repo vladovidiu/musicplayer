@@ -4,8 +4,8 @@
     <header ng-include="'app/components/navbar/navbar.html'"></header>
     <section class="jumbotron">
       <div class="songDetail" ng-hide="!currentSong.songName">
-        <h1 class="md-headline-3">{{currentSong.songName}}</h1>
-        <h2>{{currentSong.artist}}</h2>
+        <h1 class="md-headline-3 songName">{{currentSong.songName}}</h1>
+        <h2 class="artistName">{{currentSong.artist}}</h2>
         <h2><select ng-model="currentSong.rating" ng-options="rate for rate in rates" default-option="Rate this song" ng-change="rateSong()"></select></h2>
       </div>
       <div class="progressBar" layout="row" ng-hide="!currentSong.songName">
@@ -14,10 +14,10 @@
         <div class="rightTimer">{{ timeRemaining | secondsToTime | date:'mm:ss' }}</div>
       </div>
       <div class="playOptions">
-        <md-button class="md-raised" ng-disabled="!currentSong.songName" ng-click="previousSong()">Previous</md-button>
-        <md-button class="md-raised md-primary" ng-disabled="!currentSong.songName" ng-hide="pauseFlag" ng-click="playSong()">Play</md-button>
-        <md-button class="md-raised md-primary" ng-show="pauseFlag" ng-click="pauseSong()">Pause</md-button>
-        <md-button class="md-raised" ng-disabled="!currentSong.songName" ng-click="nextSong()">Next</md-button>
+        <md-button class="md-raised previousButton" ng-disabled="!currentSong.songName" ng-click="previousSong()">Previous</md-button>
+        <md-button class="md-raised md-primary playButton" ng-disabled="!currentSong.songName" ng-hide="pauseFlag" ng-click="playSong()">Play</md-button>
+        <md-button class="md-raised md-primary pauseButton" ng-show="pauseFlag" ng-click="pauseSong()">Pause</md-button>
+        <md-button class="md-raised nextButton" ng-disabled="!currentSong.songName" ng-click="nextSong()">Next</md-button>
       </div>
 
     </section>
